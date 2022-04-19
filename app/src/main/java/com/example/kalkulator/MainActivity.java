@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -15,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
     TextView operationField;    // текстовое поле для вывода знака операции
     Double operand = null;  // операнд операции
     String lastOperation = "="; // последняя операция
+    Spinner spinner;
+    String[] str_array;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
         resultField = findViewById(R.id.resultField);
         numberField = findViewById(R.id.numberField);
         operationField = findViewById(R.id.operationField);
+        spinner = findViewById(R.id.spinner);
+        str_array = new String[10];
+        for (int i = 0;i<str_array.length;i++){
+            str_array[i] = "";
+        }
     }
     // сохранение состояния
     @Override
@@ -83,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
             }
             switch(lastOperation){
                 case "=":
-                    operand =number;
+                     operand =number;
+                    ArrayAdapter<String> adapter_1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,str_array);
+                    spinner.setAdapter(adapter_1);
                     break;
                 case "/":
                     if(number==0){
@@ -91,17 +104,42 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         operand /=number;
+                        str_array[0] = String.valueOf(operand);
+                        for(int i = 9;i > 0;i--){
+                            str_array[i] = str_array[i-1];
+                        }
+                        adapter_1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,str_array);
+                        spinner.setAdapter(adapter_1);
                     }
                     break;
                 case "*":
                     operand *=number;
+                    str_array[0] = String.valueOf(operand);
+                    for(int i = 9;i > 0;i--){
+                        str_array[i] = str_array[i-1];
+                    }
+                    adapter_1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,str_array);
+                    spinner.setAdapter(adapter_1);
                     break;
                 case "+":
                     operand +=number;
+                    str_array[0] = String.valueOf(operand);
+                    for(int i = 9;i > 0;i--){
+                        str_array[i] = str_array[i-1];
+                    }
+                    adapter_1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,str_array);
+                    spinner.setAdapter(adapter_1);
                     break;
                 case "-":
                     operand -=number;
+                    str_array[0] = String.valueOf(operand);
+                    for(int i = 9;i > 0;i--){
+                        str_array[i] = str_array[i-1];
+                    }
+                    adapter_1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,str_array);
+                    spinner.setAdapter(adapter_1);
                     break;
+
             }
         }
         resultField.setText(operand.toString().replace('.', ','));
@@ -111,4 +149,5 @@ public class MainActivity extends AppCompatActivity {
     public void ACclick(View view) {
         resultField.setText("0");
     }
+
 }
